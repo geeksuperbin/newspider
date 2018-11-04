@@ -1,5 +1,5 @@
 """
-查，查询多条数据
+查，查询一条数据
 """
 
 from mysql import connector
@@ -24,12 +24,11 @@ mycursor.execute(sql, val)
 # 没有以下这句话
 # mydb.commit()
 
-rows = mycursor.fetchall()
+row = mycursor.fetchone()
 
-for row in rows:
-    first_name, last_name, age, sex, income = row
-    print("first_name=%s, last_name=%s, age=%d, sex=%s, income=%d" % \
-        (first_name, last_name, age, sex, income))
+first_name, last_name, age, sex, income = row
+print("first_name=%s, last_name=%s, age=%d, sex=%s, income=%d" % \
+    (first_name, last_name, age, sex, income))
 
 print("影响行数: %d" % mycursor.rowcount)
 

@@ -1,5 +1,5 @@
 """
-连接数据库
+使用 PyMySQL 驱动连接数据库
 """
 
 import pymysql
