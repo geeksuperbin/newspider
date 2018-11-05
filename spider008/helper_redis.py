@@ -15,7 +15,6 @@ class RedisHelper():
         添加一条数据到指定集合
         '''
         res = self.r.sadd(key, member)
-        print(res)
 
 
     def del_redis_set(self, key):

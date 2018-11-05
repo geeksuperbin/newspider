@@ -4,7 +4,11 @@ import csv
 
 class UrlManager():
     def __init__(self):
-        self.myredis = helper_redis.RedisHelper(12)
+        self.myredis = helper_redis.RedisHelper(15)
+        # 存储列表url集合初始化
+        self.myredis.del_redis_set('cnvd:list')
+        # 初始化详情url
+        self.myredis.del_redis_set('cnvd:detail:new')
 
 
 
@@ -20,8 +24,7 @@ class UrlManager():
         if url is None or offset is None or limit is None:
             return
 
-        # 存储列表url集合初始化
-        self.myredis.del_redis_set('cnvd:list')
+        
         
         # 存储列表url
         # http://www.cnvd.org.cn/flaw/list.htm?max=100&offset=0
@@ -46,18 +49,16 @@ class UrlManager():
         批量添加详情 urls
         '''
 
-        # 初始化详情url
-        self.myredis.del_redis_set('cnvd:detail')
+       
 
         # csv 文件备份
-        csv_file = open('detail_new_urls_again.csv', 'a', newline='')
+        csv_file = open('detail_new_urls.csv', 'a', newline='')
         csv_write = csv.writer(csv_file)
 
         for detail_url in detail_urls:
-            # if self.myredis.exist_detail_url('cnvd:detail',detail_url) or self.myredis.exist_detail_url('cnvd:detail:old',detail_url):
-            if self.myredis.exist_detail_url('cnvd:detail',detail_url):
+            if self.myredis.exist_detail_url('cnvd:detail:new',detail_url) or self.myredis.exist_detail_url('cnvd:detail:old',detail_url):
                continue
-            self.myredis.add_redis_data('cnvd:detail',detail_url)
+            self.myredis.add_redis_data('cnvd:detail:new',detail_url)
             csv_write.writerow([detail_url])
 
 
