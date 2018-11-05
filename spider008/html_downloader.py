@@ -1,6 +1,7 @@
 from urllib import request
 from urllib import parse
 from http import cookiejar
+# import socket
 
 class HtmlDownloader():
     
@@ -14,7 +15,7 @@ class HtmlDownloader():
         header = {
             'User-Agent': 'Mozilla/5.0'
         }
-
+        # socket.setdefaulttimeout(60)
         cjar = cookiejar.CookieJar()
         cookie = request.HTTPCookieProcessor(cjar)
         opener = request.build_opener(cookie)
@@ -37,4 +38,25 @@ class HtmlDownloader():
         '''
         下载详情url内容
         '''
-        pass
+        if url is None:
+            return
+        
+        header = {
+            'User-Agent': 'Mozilla/5.0'
+        }
+        cjar = cookiejar.CookieJar()
+        cookie = request.HTTPCookieProcessor(cjar)
+        opener = request.build_opener(cookie)
+        request.install_opener(opener)
+
+        req = request.Request(url, headers=header)
+        reponse = request.urlopen(req)
+        htmls = reponse.read()
+        code = reponse.getcode()
+
+        if code != 200:
+            return
+        
+        htmls = str(htmls, encoding="utf-8")
+
+        return htmls        

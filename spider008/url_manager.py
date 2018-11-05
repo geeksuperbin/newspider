@@ -8,7 +8,9 @@ class UrlManager():
         # 存储列表url集合初始化
         self.myredis.del_redis_set('cnvd:list')
         # 初始化详情url
-        self.myredis.del_redis_set('cnvd:detail:new')
+        # self.myredis.del_redis_set('cnvd:detail:new')
+        self.datail_data_urls = set()
+        self.add_history_detail()
 
 
 
@@ -24,7 +26,8 @@ class UrlManager():
         if url is None or offset is None or limit is None:
             return
 
-        
+        # url = "http://www.cnvd.org.cn/flaw/list.htm?max=100&offset=10700"
+        # self.myredis.add_redis_data('cnvd:list', url)
         
         # 存储列表url
         # http://www.cnvd.org.cn/flaw/list.htm?max=100&offset=0
@@ -56,10 +59,13 @@ class UrlManager():
         csv_write = csv.writer(csv_file)
 
         for detail_url in detail_urls:
-            if self.myredis.exist_detail_url('cnvd:detail:new',detail_url) or self.myredis.exist_detail_url('cnvd:detail:old',detail_url):
-               continue
-            self.myredis.add_redis_data('cnvd:detail:new',detail_url)
-            csv_write.writerow([detail_url])
+            if detail_url not in self.datail_data_urls:
+                self.datail_data_urls.add(detail_url)
+                csv_write.writerow([detail_url])
+            # if self.myredis.exist_detail_url('cnvd:detail:new',detail_url) or self.myredis.exist_detail_url('cnvd:detail:old',detail_url):
+            #    continue
+            # self.myredis.add_redis_data('cnvd:detail:new',detail_url)
+                
 
 
     def has_list_url(self):
@@ -77,13 +83,23 @@ class UrlManager():
         '''
         是否有待爬取的详情url
         '''
-        pass
+        return len(self.datail_data_urls)
 
     
     def get_detail_url(self):
         '''
         获取一个待爬取详情url
         '''
-        pass
+        detail_url = self.datail_data_urls.pop()
+        return detail_url
 
-   
+
+    def add_history_detail(self):
+        '''
+        从文件中读取详情url到集合中
+        '''
+        csv_file = csv.reader(open('detail_new_urls.csv', 'r'))
+        for detail_url in csv_file:
+            # print(detail_url[0])
+            # exit()
+            self.datail_data_urls.add(detail_url[0])
