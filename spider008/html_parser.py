@@ -26,7 +26,7 @@ class HtmlParser():
         holeInfo  = soup.find('h1').get_text()
         # cnvd 编号
         # cnvd = soup.find_all('tr')[0].find_all('td')[1].get_text().strip()
-        cnvd = soup.find('td', text='CNVD-ID')
+        cnvd = soup.find('td', text='CNVD-ID') 
         # cnvd = soup.find_all('tr')[0]
         # 公开日期
         # pubTime = soup.find_all('tr')[0]
