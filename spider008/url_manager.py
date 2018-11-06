@@ -4,9 +4,9 @@ import csv
 
 class UrlManager():
     def __init__(self):
-        self.myredis = helper_redis.RedisHelper(15)
+        # self.myredis = helper_redis.RedisHelper(15)
         # 存储列表url集合初始化
-        self.myredis.del_redis_set('cnvd:list')
+        # self.myredis.del_redis_set('cnvd:list')
         # 初始化详情url
         # self.myredis.del_redis_set('cnvd:detail:new')
         self.datail_data_urls = set()

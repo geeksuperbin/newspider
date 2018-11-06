@@ -1,11 +1,15 @@
 import pyecharts
 from pyecharts import WordCloud
 import random
+import pymysql
 
 class HtmlOutputer():
     
     def __init__(self):
-        self.datas = []
+        # self.datas = []
+        # 打开数据库连接
+        self.db = pymysql.connect(host="192.168.0.239", user="root", password="root123", database="cnvd", port=3306, charset='utf8')
+        self.cursor = self.db.cursor()
 
     def collect_detail_data(self, data):
         '''
@@ -66,11 +70,44 @@ class HtmlOutputer():
         myWordCloud.render('./word-cloud.html')
 
 
-    def output_mysql(self):
+    def output_mysql(self, data):
         '''
         输出数据到mysql
         '''
-        pass
+        # for data in self.datas:
+        hole_info = data['hole_info']
+        cnvd = data['cnvd']
+        pub_time = data['pub_time']
+        danger_lev = data['danger_lev']
+        affect_pro = data['affect_pro']
+        bugtraq = data['bugtraq']
+        cve = data['cve']
+        hole_desc = data['hole_desc']
+        ref_url = data['ref_url']
+        hole_sol_way = data['hole_sol_way']
+        patch = data['patch']
+        verified = data['verified']
+        report_time = data['report_time']
+        record_time = data['record_time']
+        upd_time = data['upd_time']
+        hole_file = data['hole_file']
+
+        sql = "INSERT INTO vul_lib_cnvd \
+        (hole_info, cnvd, pub_time, danger_lev, affect_pro, bugtraq, cve, hole_desc, ref_url, hole_sol_way, patch, verified, report_time, record_time, upd_time, hole_file) VALUES \
+        ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % \
+        (hole_info, cnvd, pub_time, danger_lev, affect_pro, bugtraq, cve, hole_desc, ref_url, hole_sol_way, patch, verified, report_time, record_time, upd_time, hole_file)
+            
+        try:
+            # 执行 sql 语句
+            self.cursor.execute(sql)
+            # 提交到数据库执行
+            self.db.commit()
+        except:
+            # 如果发生错误则回滚
+            self.db.rollback()
+
+        # 关闭数据库连接
+        # self.db.close()
     
     def output_csv(self):
         '''
@@ -83,3 +120,7 @@ class HtmlOutputer():
         输出数据到json
         '''
         pass
+    
+    def close_database(self):
+        # 关闭数据库连接
+        self.db.close()
