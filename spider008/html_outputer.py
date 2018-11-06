@@ -8,7 +8,8 @@ class HtmlOutputer():
     def __init__(self):
         # self.datas = []
         # 打开数据库连接
-        self.db = pymysql.connect(host="192.168.0.239", user="root", password="root123", database="cnvd", port=3306, charset='utf8')
+        # self.db = pymysql.connect(host="192.168.0.239", user="root", password="root123", database="cnvd", port=3306, charset='utf8')
+        self.db = pymysql.connect(host="localhost", user="root", password="root", database="cnvd", port=8809, charset='utf8')
         self.cursor = self.db.cursor()
 
     def collect_detail_data(self, data):

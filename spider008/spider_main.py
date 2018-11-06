@@ -45,18 +45,18 @@ class SpiderMain():
         while self.urls.has_detail_url():
             try:
                 detail_url = self.urls.get_detail_url()
+                # break
                 # detail_url = 'http://www.cnvd.org.cn/flaw/show/CNVD-2018-21803'
                 # print(detail_url)
                 # break
                 print('detail craw %d : %s' % (detail_count, detail_url))
                 detail_content = self.downloader.download_detail_content(detail_url)
-
                 detail_data = self.parser.parse_detail_content(detail_content)
                 # self.outputer.collect_detail_data(detail_data)
                 self.outputer.output_mysql(detail_data)
             except:
                 print('detail craw failed: %s' % (detail_url))
-                mysql_failed_url = open('mysql_failed_detail_urls.csv', 'a', newline='') 
+                mysql_failed_url = open('spider_failed_detail_urls.csv', 'a', newline='') 
                 mysql_write_failed = csv.writer(mysql_failed_url)
                 mysql_write_failed.writerow([detail_url])
             detail_count +=1

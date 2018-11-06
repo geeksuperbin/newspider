@@ -40,23 +40,27 @@ class HtmlDownloader():
         '''
         if url is None:
             return
-        
-        header = {
-            'User-Agent': 'Mozilla/5.0'
-        }
-        cjar = cookiejar.CookieJar()
-        cookie = request.HTTPCookieProcessor(cjar)
-        opener = request.build_opener(cookie)
-        request.install_opener(opener)
+        try:
+            header = {
+                'User-Agent': 'Mozilla/5.0'
+            }
+            cjar = cookiejar.CookieJar()
+            cookie = request.HTTPCookieProcessor(cjar)
+            opener = request.build_opener(cookie)
+            request.install_opener(opener)
 
-        req = request.Request(url, headers=header)
-        reponse = request.urlopen(req)
-        htmls = reponse.read()
-        code = reponse.getcode()
+            req = request.Request(url, headers=header)
+            reponse = request.urlopen(req)
+            htmls = reponse.read()
+            code = reponse.getcode()
 
-        if code != 200:
-            return
-        
-        htmls = str(htmls, encoding="utf-8")
+            if code != 200:
+                raise RuntimeError('htmlError')
+            
+            htmls = str(htmls, encoding="utf-8")
 
-        return htmls        
+            return htmls
+        except:
+            failed_url = open('html_failed_detail_urls.csv', 'a', newline='') 
+            write_failed = csv.writer(failed_url)
+            write_failed.writerow([url])        

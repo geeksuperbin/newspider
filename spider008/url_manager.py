@@ -1,5 +1,6 @@
 import helper_redis
 import csv
+import pymysql
 
 
 class UrlManager():
@@ -11,6 +12,8 @@ class UrlManager():
         # self.myredis.del_redis_set('cnvd:detail:new')
         self.datail_data_urls = set()
         self.add_history_detail()
+        # print(len(self.datail_data_urls))
+        # exit()
 
 
 
@@ -98,8 +101,24 @@ class UrlManager():
         '''
         从文件中读取详情url到集合中
         '''
+        db = pymysql.connect(host="localhost", user="root", password="root", database="cnvd", port=8809, charset='utf8')
+        cursor = db.cursor()
+        # 从数据库中读取已处理的url，并进行剔除操作
+        data_filter = set()
+        sql = "SELECT cnvd FROM vul_lib_cnvd"
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        for row in rows:
+            r  = 'http://www.cnvd.org.cn/flaw/show/'+row[0]
+            data_filter.add(r)
+
+
+        # csv_file = csv.reader(open('detail_new_urls.csv', 'r'))
         csv_file = csv.reader(open('detail_new_urls.csv', 'r'))
+
         for detail_url in csv_file:
-            # print(detail_url[0])
-            # exit()
-            self.datail_data_urls.add(detail_url[0])
+            if detail_url[0] not in data_filter:
+                # self.datail_data_urls.add (detail_url[0])
+                failed_url = open('download_failed_detail_urls.csv', 'a', newline='') 
+                write_failed = csv.writer(failed_url)
+                write_failed.writerow([detail_url[0]])
