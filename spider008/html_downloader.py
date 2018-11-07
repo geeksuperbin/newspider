@@ -61,6 +61,7 @@ class HtmlDownloader():
 
             return htmls
         except:
-            failed_url = open('html_failed_detail_urls.csv', 'a', newline='') 
+            failed_url = open('F:\\develop\\code\\python3\\newspider\\spider008\\html_failed_detail_urls.csv', 'a', newline='') 
+            # failed_url = open('html_failed_detail_urls.csv', 'a', newline='') 
             write_failed = csv.writer(failed_url)
             write_failed.writerow([url])        

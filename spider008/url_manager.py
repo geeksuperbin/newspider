@@ -113,7 +113,8 @@ class UrlManager():
             r  = 'http://www.cnvd.org.cn/flaw/show/'+row[0]
             data_filter.add(r)
 
-        csv_file = csv.reader(open('detail_new_urls.csv', 'r'))
+        # csv_file = csv.reader(open('detail_new_urls.csv', 'r'))
+        csv_file = csv.reader(open('F:\\develop\\code\\python3\\newspider\\spider008\\detail_new_urls.csv', 'r'))
 
         for detail_url in csv_file:
             if detail_url[0] not in data_filter:

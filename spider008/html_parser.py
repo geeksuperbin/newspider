@@ -28,7 +28,7 @@ class HtmlParser():
         hole_info_pattern = '<h1.*?>([\s\S]*?)<\/h1>'
         hole_info = re.findall(hole_info_pattern, content)
         if hole_info:
-            hole_info = hole_info[0].strip()
+            hole_info = self.clear_html_re(hole_info[0].strip())
         else:
             hole_info = ''
         
@@ -36,7 +36,7 @@ class HtmlParser():
         cnvd_pattern = '<td class="alignRight">CNVD-ID</td>[\s\S]*?<td>([\s\S]*?)</td>'
         cnvd = re.findall(cnvd_pattern, content)
         if cnvd:
-            cnvd = cnvd[0].strip()
+            cnvd = self.clear_html_re(cnvd[0].strip())
         else:
             cnvd = ''
 
@@ -44,7 +44,7 @@ class HtmlParser():
         pub_time_pattern = '<td class="alignRight">公开日期</td>[\s\S]*?<td>([\s\S]*?)</td>'
         pub_time = re.findall(pub_time_pattern, content)
         if pub_time:
-            pub_time = pub_time[0].strip()
+            pub_time = self.clear_html_re(pub_time[0].strip())
         else:
             pub_time = ''
 
@@ -69,7 +69,7 @@ class HtmlParser():
         bugtraq_pattern = '<td class="alignRight">BUGTRAQ ID</td>[\s\S]*?<td>[\s\S]*?<a[\s\S]*?>([\s\S]*?)</a>[\s\S]*?</td>'
         bugtraq = re.findall(bugtraq_pattern, content)
         if bugtraq:
-            bugtraq = bugtraq[0].strip()
+            bugtraq = self.clear_html_re(bugtraq[0].strip())
         else:
             bugtraq = ''
 
@@ -78,7 +78,7 @@ class HtmlParser():
         cve_pattern = '<td class="alignRight">CVE ID</td>[\s\S]*?<td>[\s\S]*?<a[\s\S]*?>([\s\S]*?)</a>[\s\S]*?</td>'
         cve = re.findall(cve_pattern, content)
         if cve:
-            cve = cve[0].strip()
+            cve = self.clear_html_re(cve[0].strip())
         else:
             cve = ''
 
@@ -211,6 +211,8 @@ class HtmlParser():
         s_content = re.sub(r"</?(.+?)>|&nbsp;|\t|\r", "", content)
         s_content = re.sub(r"\n", " ", s_content)
         s_content = re.sub(r"\*", "\\*", s_content)
+        s_content = re.sub(r"\'", "\\'", s_content)
+        s_content = re.sub(r"\"", "\\\"", s_content)
 
         return s_content
 

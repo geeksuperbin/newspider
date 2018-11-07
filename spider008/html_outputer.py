@@ -2,6 +2,7 @@ import pyecharts
 from pyecharts import WordCloud
 import random
 import pymysql
+import csv
 
 class HtmlOutputer():
     
@@ -93,11 +94,28 @@ class HtmlOutputer():
         upd_time = data['upd_time']
         hole_file = data['hole_file']
 
+        if hole_info is None:
+            return
+
         sql = "INSERT INTO vul_lib_cnvd \
         (hole_info, cnvd, pub_time, danger_lev, affect_pro, bugtraq, cve, hole_desc, ref_url, hole_sol_way, patch, verified, report_time, record_time, upd_time, hole_file) VALUES \
         ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % \
         (hole_info, cnvd, pub_time, danger_lev, affect_pro, bugtraq, cve, hole_desc, ref_url, hole_sol_way, patch, verified, report_time, record_time, upd_time, hole_file)
-            
+
+        failed_url = open('sql.csv', 'a', newline='') 
+        write_failed = csv.writer(failed_url)
+        write_failed.writerow([sql])
+        write_failed.writerow(['------------------------'])
+
+
+        # print(sql)        
+        # a = 1
+
+        # b = 2
+
+        
+
+
         try:
             # 执行 sql 语句
             self.cursor.execute(sql)
