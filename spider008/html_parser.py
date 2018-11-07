@@ -208,11 +208,9 @@ class HtmlParser():
         :param content:原文本
         :return: 清除后的文本
         '''
-        s_content = re.sub(r"</?(.+?)>", "", content)
-        s_content = re.sub(r"&nbsp;", "", s_content)
-        s_content = re.sub(r"\t", "", s_content)
-        s_content = re.sub(r"\r", "", s_content)
+        s_content = re.sub(r"</?(.+?)>|&nbsp;|\t|\r", "", content)
         s_content = re.sub(r"\n", " ", s_content)
+        s_content = re.sub(r"\*", "\\*", s_content)
 
         return s_content
 

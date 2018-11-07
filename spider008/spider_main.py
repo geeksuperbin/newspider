@@ -45,7 +45,7 @@ class SpiderMain():
         while self.urls.has_detail_url():
             try:
                 detail_url = self.urls.get_detail_url()
-                # break
+                break
                 # detail_url = 'http://www.cnvd.org.cn/flaw/show/CNVD-2018-21803'
                 # print(detail_url)
                 # break
