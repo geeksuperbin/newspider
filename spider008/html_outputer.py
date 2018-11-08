@@ -102,10 +102,10 @@ class HtmlOutputer():
         ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % \
         (hole_info, cnvd, pub_time, danger_lev, affect_pro, bugtraq, cve, hole_desc, ref_url, hole_sol_way, patch, verified, report_time, record_time, upd_time, hole_file)
 
-        failed_url = open('sql.csv', 'a', newline='') 
-        write_failed = csv.writer(failed_url)
-        write_failed.writerow([sql])
-        write_failed.writerow(['------------------------'])
+        # failed_url = open('sql.csv', 'a', newline='',encoding="utf-8") 
+        # write_failed = csv.writer(failed_url)
+        # write_failed.writerow([sql])
+        # write_failed.writerow(['------------------------'])
 
 
         # print(sql)        

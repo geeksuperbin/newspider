@@ -211,8 +211,8 @@ class HtmlParser():
         s_content = re.sub(r"</?(.+?)>|&nbsp;|\t|\r", "", content)
         s_content = re.sub(r"\n", " ", s_content)
         s_content = re.sub(r"\*", "\\*", s_content)
+        s_content = re.sub(r"\\", "\\\\", s_content)
         s_content = re.sub(r"\'", "\\'", s_content)
-        s_content = re.sub(r"\"", "\\\"", s_content)
 
         return s_content
 

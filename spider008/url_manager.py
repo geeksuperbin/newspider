@@ -118,7 +118,7 @@ class UrlManager():
 
         for detail_url in csv_file:
             if detail_url[0] not in data_filter:
-                self.datail_data_urls.add (detail_url[0])
-                # failed_url = open('download_failed_detail_urls.csv', 'a', newline='') 
-                # write_failed = csv.writer(failed_url)
-                # write_failed.writerow([detail_url[0]])
+                # self.datail_data_urls.add (detail_url[0])
+                failed_url = open('download_failed_detail_urls.csv', 'a', newline='') 
+                write_failed = csv.writer(failed_url)
+                write_failed.writerow([detail_url[0]])
